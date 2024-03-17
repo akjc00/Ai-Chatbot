@@ -110,34 +110,92 @@
     <div class="menu">
         <ul>
             <li><a href="#">Saved Jobs</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="/about">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </div>
     <h1>CareerBot</h1>
 
     <!-- Conversation display -->
-    <div class="conversation">
-        {% for speaker, message in conversation %}
-            <div class="message {{ 'user' if speaker == 'User' else 'chatbot' }}">
-                <p>{{ speaker }}: {{ message }}</p>
-            </div>
-        {% endfor %}
+    <div class="conversation" id="conversation">
     </div>
 
     <!-- Button for job or internship -->
-    {% if not conversation or conversation[-1][0] == 'User' %}
-        <form action="/button_click" method="post">
-            <button type="submit" name="button_value" value="jobs">Jobs</button>
-            <button type="submit" name="button_value" value="internship">Internship</button>
-        </form>
-    {% endif %}
+    <form id="buttonForm" action="{{ url_for('button_click') }}" method="post">
+        <button type="submit" name="button_value" value="jobs">Jobs</button>
+        <button type="submit" name="button_value" value="internship">Internship</button>
+    </form>
 
     <!-- Chatbox for user input -->
-    <form action="/chat" method="post">
-        <input type="text" name="user_input" placeholder="Type your message...">
+    <form id="userInputForm" action="{{ url_for('chat') }}" method="post">
+        <input type="text" id="userInput" name="user_input" placeholder="Type your message...">
         <input type="submit" value="Enter">
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get elements
+        const conversation = document.getElementById('conversation');
+        const userInputForm = document.getElementById('userInputForm');
+        const userInput = document.getElementById('userInput');
+        const buttonForm = document.getElementById('buttonForm');
+
+        // Function to add message to conversation
+        function addMessage(speaker, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(speaker.toLowerCase());
+            messageElement.innerHTML = `<p>${speaker}: ${message}</p>`;
+            conversation.appendChild(messageElement);
+        }
+
+        // Function to handle user input form submission
+        userInputForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userMessage = userInput.value;
+            addMessage('User', userMessage);
+            userInput.value = '';
+
+            // Send user input to backend
+            fetch('{{ url_for("chat") }}', {
+                method: 'POST',
+                body: new URLSearchParams({ user_input: userMessage }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botResponse = data.message;
+                addMessage('Chatbot', botResponse);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Function to handle button form submission
+        buttonForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const buttonValue = event.submitter.value;
+            addMessage('User', buttonValue);
+
+            // Send button value to backend
+            fetch('{{ url_for("button_click") }}', {
+                method: 'POST',
+                body: new URLSearchParams({ button_value: buttonValue }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botResponse = data.message;
+                addMessage('Chatbot', botResponse);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
 </body>
 </html>
+
