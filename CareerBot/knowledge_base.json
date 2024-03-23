@@ -1,0 +1,48 @@
+{
+  "questions": [
+    {
+      "question": "Hello",
+      "answer": "hey there"
+    },
+    {
+      "question": "How are you doing?",
+      "answer": "My code is functioning well. How may I help you today?"
+    },
+    {
+      "question": "Can you find me a job in software engineering?",
+      "answer": "Sure, I can help you with that. Please provide me with more details about your preferences such as location, pay range, and any specific skills or qualifications you have."
+    },
+    {
+      "question": "What are the highest paying jobs?",
+      "answer": "The highest paying jobs vary depending on factors such as industry, location, and experience. Some high-paying job roles include software engineering, data science, and management positions."
+    },
+    {
+      "question": "What entry-level positions are available in the [industry] field?",
+      "answer": "Entry-level positions in the [industry] field can include roles such as [job title], [job title], and [job title]. These positions typically require basic skills and knowledge in [specific area] and offer opportunities for career growth and development."
+    },
+    {
+      "question": "Can you recommend any internships for [specific field or industry]?",
+      "answer": "Certainly! Some recommended internships in the [specific field or industry] include [internship title], [internship title], and [internship title]. These internships provide valuable hands-on experience and networking opportunities for aspiring professionals."
+    },
+    {
+      "question": "How can I improve my resume for [specific job role]?",
+      "answer": "To improve your resume for [specific job role], focus on highlighting relevant skills, experiences, and achievements related to the position. Tailor your resume to match the job description, and consider including keywords and quantifiable results to make your resume stand out to employers."
+    },
+    {
+      "question": "What skills are employers looking for in [specific industry]?",
+      "answer": "Employers in the [specific industry] typically look for candidates with skills such as [skill 1], [skill 2], and [skill 3]. Additionally, soft skills like communication, teamwork, and problem-solving are highly valued in the industry."
+    },
+    {
+      "question": "hi",
+      "answer": "Hey there"
+    },
+    {
+      "question": "",
+      "answer": "Hello"
+    },
+    {
+      "question": "Hey",
+      "answer": "Hello"
+    }
+  ]
+}

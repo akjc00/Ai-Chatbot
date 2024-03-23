@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careerbot</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            color: #1da15d;
+            text-align: left;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .conversation {
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            max-width: 60%;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .user {
+            background-color: #e6e6e6;
+            align-self: flex-start;
+        }
+
+        .chatbot {
+            background-color: #1da15d;
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1; /* Ensure menu is above other elements */
+        }
+
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu ul li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: #1da15d;
+            font-weight: bold;
+        }
+
+        .menu ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="menu">
+        <ul>
+            <li><a href="#">Saved Jobs</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <h1>CareerBot</h1>
+
+    <!-- Conversation display -->
+    <div class="conversation" id="conversation">
+    </div>
+
+    <!-- Chatbox for user input -->
+    <form id="userInputForm">
+        <input type="text" id="userInput" placeholder="Type your message...">
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const conversation = document.getElementById('conversation');
+        const userInputForm = document.getElementById('userInputForm');
+        const userInput = document.getElementById('userInput');
+
+        function addMessage(speaker, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(speaker.toLowerCase());
+            messageElement.innerHTML = `<p>${speaker}: ${message}</p>`;
+            conversation.appendChild(messageElement);
+        }
+
+        userInputForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const userMessage = userInput.value;
+            addMessage('User', userMessage);
+            userInput.value = '';
+
+            fetch('/chat', {
+                method: 'POST',
+                body: new URLSearchParams({ user_input: userMessage }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botResponse = data.bot_response;
+                addMessage('Chatbot', botResponse);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+</body>
+</html>
