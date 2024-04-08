@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careerbot</title>
+
     <style>
         body {
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -22,12 +22,6 @@
             position: relative;
         }
 
-        h1 {
-            margin: 0;
-            color: #1da15d;
-            text-align: left;
-        }
-
         form {
             display: flex;
             justify-content: center;
@@ -40,6 +34,17 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             outline: none;
+        }
+        input[type="submit"] {
+            background-color: #1da15d;
+            color: white;
+            padding: 10px 20px;
+            border: 1.5px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #14804c;
         }
 
         .conversation {
@@ -94,18 +99,35 @@
         .menu ul li a:hover {
             text-decoration: underline;
         }
+
+        .logo {
+            max-width: 90px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #1da15d;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="menu">
         <ul>
-            <li><a href="#">Saved Jobs</a></li>
+            <li><a href="/allJobs">All Jobs</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </div>
-    <h1>CareerBot</h1>
+    <h1>
+        <img class="logo" src="../static/botlogo.png" alt="CareerBot Logo">
+
+    </h1>
 
     <!-- Conversation display -->
     <div class="conversation" id="conversation">
@@ -114,6 +136,7 @@
     <!-- Chatbox for user input -->
     <form id="userInputForm">
         <input type="text" id="userInput" placeholder="Type your message...">
+        <input type="submit" value="Submit">
     </form>
 </div>
 
